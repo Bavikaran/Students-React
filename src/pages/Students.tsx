@@ -177,7 +177,16 @@ function Students(props: IProps) {
 
 
       <div style={{ width: "100%" }}>
-        <Table tableData={students} column={studentColumn} onEdit={onEdit} onDelete={onDelete}/>
+        <Table
+          tableData={students}
+          column={studentColumn}
+          actions={(rowData, index) => (
+            <div style={{ display: "flex", gap: "8px" }}>
+              <Button name="Edit" size='sm' onClick={() => onEdit(rowData, index)} />
+              <Button name="Delete" size='sm' onClick={() => onDelete(rowData.id)} />
+            </div>
+          )}
+        />
       </div>
 
 

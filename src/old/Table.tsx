@@ -1,6 +1,5 @@
 import type React from "react";
-import type { ReactNode } from "react";
-
+import Button from "../components/Button";
 
 const thStyle: React.CSSProperties = {
   border: "1px solid #dddddd",
@@ -23,14 +22,15 @@ const tdStyle: React.CSSProperties = {
 interface ITable {
     column: any[];
     tableData: any[];
-    actions?: (rowData: any, index: number) => ReactNode;
+    onEdit?: (rowData: any, index: number) => void;
+    onDelete?: (id: number) => void;
 }
 
 
 
 
 function Table(props: ITable) {
-    const {column, tableData, actions} = props;
+    const {column, tableData, onEdit, onDelete} = props;
 
   return (
     <div >
@@ -50,7 +50,7 @@ function Table(props: ITable) {
                     );
                 })
             }
-            {actions && <th style={thStyle}>Actions</th>}
+            {(onEdit || onDelete) && <th style={thStyle}>Actions</th>}
           </tr>
         </thead>
 
@@ -67,12 +67,15 @@ function Table(props: ITable) {
                                 );
                             })
                         }
-                        {actions && (
+                        {(onEdit || onDelete) && (
+                          
                           <td style={tdStyle}>
                             <div style={{ display: "flex", justifyContent: "center", gap: "8px" }}>
-                              {actions(data, index)}
+                              {onEdit && (<Button size='sm' name='Edit' onClick={() => onEdit(data, index)}/>)}
+                              {onDelete && (<Button size='sm' name='Delete' onClick={() => onDelete(data.id)}/>)}
                             </div>
                           </td>
+  
                         )}
                     </tr>
                 );
